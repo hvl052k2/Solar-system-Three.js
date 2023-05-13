@@ -47,6 +47,16 @@ const sunMat = new THREE.MeshBasicMaterial({ map: loader.load("assets/images/sun
 const sun = new THREE.Mesh(sunGeo, sunMat);
 scene.add(sun);
 
+function createPlanet(scene, size, texture, position){
+  const planetGeo = new THREE.SphereGeometry(size,30,30);
+  const planetMat = new THREE.MeshStandardMaterial({map: loader.load(texture)});
+  const planet = new THREE.Mesh(planetGeo, planetMat);
+  const objPlanet = new THREE.Object3D();
+  planet.position.x = position;
+  objPlanet.add(planet);
+  scene.add(objPlanet);
+}
+
 // Tạo sao Thủy
 const mercuryGeo = new THREE.SphereGeometry(3.2, 30, 30);
 const mercuryMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/mercury.jpg") });
@@ -55,6 +65,8 @@ const objMercury = new THREE.Object3D();
 mercury.position.x = 28;
 objMercury.add(mercury);
 scene.add(objMercury);
+
+// createPlanet(scene, 3.2, "assets/images/mercury.jpg",28);
 
 // Tạo sao Kim
 const venusGeo = new THREE.SphereGeometry(5.8, 30, 30);
@@ -169,12 +181,15 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 // Đặt vị trí camera
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 camera.position.set(-90, 140, 140);
+controls.update();
+
 camera.lookAt(new THREE.Vector3(0, 0, 0))
 renderer.render(scene, camera);
 
 function animate() {
-  //Self-rotation
+  // Tự quay quanh trục
   sun.rotateY(0.004);
   mercury.rotateY(0.004);
   venus.rotateY(0.002);
@@ -187,7 +202,7 @@ function animate() {
   neptune.rotateY(0.032);
   pluto.rotateY(0.008);
 
-  //Around-sun-rotation
+  // Quay quanh mặt trời
   objMercury.rotateY(0.01);
   objVenus.rotateY(0.015);
   objEarth.rotateY(0.01);
