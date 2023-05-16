@@ -5,8 +5,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const ambientLight = new THREE.AmbientLight(0x333333);
-scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xFFFFFF, 2, 300);
 
+scene.add(ambientLight);
+scene.add(pointLight)
+
+// Tạo background cho scene
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 scene.background = cubeTextureLoader.load([
   "assets/images/stars.jpg",
@@ -16,6 +20,8 @@ scene.background = cubeTextureLoader.load([
   "assets/images/stars.jpg",
   "assets/images/stars.jpg"
 ]);
+
+const loader = new THREE.TextureLoader();
 
 // Tạo quỹ đạo quay
 function createOrbit(radius) {
@@ -28,18 +34,10 @@ function createOrbit(radius) {
   return orbitLine;
 }
 
-scene.add(createOrbit(28));
-scene.add(createOrbit(44));
-scene.add(createOrbit(62));
-scene.add(createOrbit(78));
-scene.add(createOrbit(100));
-scene.add(createOrbit(138));
-scene.add(createOrbit(176));
-scene.add(createOrbit(200));
-scene.add(createOrbit(216));
-
-// Vật thể phải xoay mới texture được
-const loader = new THREE.TextureLoader();
+const orbitArr = [28, 44, 62, 78, 100, 138, 176, 200, 216];
+orbitArr.forEach(function (item) {
+  scene.add(createOrbit(item));
+});
 
 // Tạo mặt trời
 const sunGeo = new THREE.SphereGeometry(16, 32, 32);
@@ -47,131 +45,69 @@ const sunMat = new THREE.MeshBasicMaterial({ map: loader.load("assets/images/sun
 const sun = new THREE.Mesh(sunGeo, sunMat);
 scene.add(sun);
 
-function createPlanet(scene, size, texture, position){
-  const planetGeo = new THREE.SphereGeometry(size,30,30);
-  const planetMat = new THREE.MeshStandardMaterial({map: loader.load(texture)});
+// Hàm tạo các hành tinh
+function createPlanet(size, texture, position) {
+  const planetGeo = new THREE.SphereGeometry(size, 30, 30);
+  const planetMat = new THREE.MeshStandardMaterial({ map: loader.load(texture) });
   const planet = new THREE.Mesh(planetGeo, planetMat);
-  const objPlanet = new THREE.Object3D();
+  const obj = new THREE.Object3D();
   planet.position.x = position;
-  objPlanet.add(planet);
-  scene.add(objPlanet);
+  obj.add(planet);
+  scene.add(obj);
+  return { obj, planet };
+}
+
+// Hàm tạo các hành tinh có vành đai
+function createPlanetHasRing(radius, outerRadius, position, planetTexture, ringTexture) {
+  const planetGeo = new THREE.SphereGeometry(radius, 30, 30);
+  const planetMat = new THREE.MeshStandardMaterial({ map: loader.load(planetTexture) });
+  const planet = new THREE.Mesh(planetGeo, planetMat);
+
+  const ringGeo = new THREE.RingGeometry(radius, outerRadius, 32);
+  const ringMat = new THREE.MeshStandardMaterial({
+    map: loader.load(ringTexture),
+    side: THREE.DoubleSide
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  const obj = new THREE.Object3D();
+  ring.position.x = position;
+  ring.rotation.x = -0.5 * Math.PI;
+  planet.position.x = position;
+  obj.add(planet, ring);
+  scene.add(obj);
+  return { obj, planet };
 }
 
 // Tạo sao Thủy
-const mercuryGeo = new THREE.SphereGeometry(3.2, 30, 30);
-const mercuryMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/mercury.jpg") });
-const mercury = new THREE.Mesh(mercuryGeo, mercuryMat);
-const objMercury = new THREE.Object3D();
-mercury.position.x = 28;
-objMercury.add(mercury);
-scene.add(objMercury);
-
-// createPlanet(scene, 3.2, "assets/images/mercury.jpg",28);
+const mercury = createPlanet(3.2, "assets/images/mercury.jpg", 28);
 
 // Tạo sao Kim
-const venusGeo = new THREE.SphereGeometry(5.8, 30, 30);
-const venusMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/venus.jpg") });
-const venus = new THREE.Mesh(venusGeo, venusMat);
-const objVenus = new THREE.Object3D();
-venus.position.x = 44;
-objVenus.add(venus)
-scene.add(objVenus);
+const venus = createPlanet(5.8, "assets/images/venus.jpg", 44);
 
 // Tạo Trái Đất
-const earthGeo = new THREE.SphereGeometry(6, 30, 30);
-const earthMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/earth.jpg") });
-const earth = new THREE.Mesh(earthGeo, earthMat);
-const objEarth = new THREE.Object3D();
-earth.position.x = 62;
-earth.add(createOrbit(10));
-objEarth.add(earth);
-scene.add(objEarth);
+const earth = createPlanet(6, "assets/images/earth.jpg", 62);
 
 // Tạo mặt trăng
-const moonGeo = new THREE.SphereGeometry(1.5, 30, 30);
-const moonMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/moon.jpg") });
-const moon = new THREE.Mesh(moonGeo, moonMat);
-moon.position.x = 10;
-earth.add(moon)
+const moon = createPlanet(1.5, "assets/images/moon.jpg", 10);
+earth.planet.add(moon.planet);
 
 // Tạo sao Hỏa
-const marsGeo = new THREE.SphereGeometry(4, 30, 30);
-const marsMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/mars.jpg") });
-const mars = new THREE.Mesh(marsGeo, marsMat);
-const objMars = new THREE.Object3D();
-mars.position.x = 78;
-objMars.add(mars)
-scene.add(objMars);
+const mars = createPlanet(4, "assets/images/mars.jpg", 78);
 
 // Tạo sao Mộc
-const jupiterGeo = new THREE.SphereGeometry(12, 30, 30);
-const jupiterMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/jupiter.jpg") });
-const jupiter = new THREE.Mesh(jupiterGeo, jupiterMat);
-const objJupiter = new THREE.Object3D();
-jupiter.position.x = 100;
-objJupiter.add(jupiter);
-scene.add(objJupiter);
+const jupiter = createPlanet(12, "assets/images/jupiter.jpg", 100);
 
 // Tạo sao Thổ
-const saturnGeo = new THREE.SphereGeometry(10, 30, 30);
-const saturnMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/saturn.jpg") });
-const saturn = new THREE.Mesh(saturnGeo, saturnMat);
-const objSaturn = new THREE.Object3D();
-saturn.position.x = 138;
-objSaturn.add(saturn);
-
-// Tạo vành đai sao Thổ
-const ringSaturnGeo = new THREE.RingGeometry(10, 20, 32);
-const ringSaturnMat = new THREE.MeshStandardMaterial({
-  map: loader.load("assets/images/saturn ring.png"),
-  side: THREE.DoubleSide
-});
-const ringSaturnMesh = new THREE.Mesh(ringSaturnGeo, ringSaturnMat);
-ringSaturnMesh.position.x = 138;
-ringSaturnMesh.rotation.x = -0.5 * Math.PI;
-objSaturn.add(ringSaturnMesh);
-scene.add(objSaturn);
+const saturn = createPlanetHasRing(10, 20, 138, "assets/images/saturn.jpg", "assets/images/saturn ring.png")
 
 // Tạo sao Thiên Vương
-const uranusGeo = new THREE.SphereGeometry(7, 30, 30);
-const uranusMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/uranus.jpg") });
-const uranus = new THREE.Mesh(uranusGeo, uranusMat);
-const objUranus = new THREE.Object3D();
-uranus.position.x = 176;
-objUranus.add(uranus);
-
-// Tạo vành đai sao Thiên Vương
-const ringUranusGeo = new THREE.RingGeometry(7, 12, 32);
-const ringUranusMat = new THREE.MeshStandardMaterial({
-  map: loader.load("assets/images/uranus ring.png"),
-  side: THREE.DoubleSide
-});
-const ringUranusMesh = new THREE.Mesh(ringUranusGeo, ringUranusMat);
-ringUranusMesh.position.x = 176;
-ringUranusMesh.rotation.x = -0.5 * Math.PI;
-objUranus.add(ringUranusMesh);
-scene.add(objUranus);
+const uranus = createPlanetHasRing(7, 12, 176, "assets/images/uranus.jpg", "assets/images/uranus ring.png")
 
 // Tạo sao Hải Vương
-const neptuneGeo = new THREE.SphereGeometry(7, 30, 30);
-const neptuneMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/neptune.jpg") });
-const neptune = new THREE.Mesh(neptuneGeo, neptuneMat);
-const objNeptune = new THREE.Object3D();
-neptune.position.x = 200;
-objNeptune.add(neptune);
-scene.add(objNeptune);
+const neptune = createPlanet(7, "assets/images/neptune.jpg", 200)
 
 // Tạo sao Diêm Vương
-const plutoGeo = new THREE.SphereGeometry(2.8, 30, 30);
-const plutoMat = new THREE.MeshStandardMaterial({ map: loader.load("assets/images/pluto.jpg") });
-const pluto = new THREE.Mesh(plutoGeo, plutoMat);
-const objPluto = new THREE.Object3D();
-pluto.position.x = 216;
-objPluto.add(pluto);
-scene.add(objPluto);
-
-const pointLight = new THREE.PointLight(0xFFFFFF, 2, 300);
-scene.add(pointLight)
+const pluto = createPlanet(2.8, "assets/images/pluto.jpg", 216);
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -191,33 +127,34 @@ renderer.render(scene, camera);
 function animate() {
   // Tự quay quanh trục
   sun.rotateY(0.004);
-  mercury.rotateY(0.004);
-  venus.rotateY(0.002);
-  earth.rotateY(0.02);
-  moon.rotateY(0.02);
-  mars.rotateY(0.018);
-  jupiter.rotateY(0.04);
-  saturn.rotateY(0.038);
-  uranus.rotateY(0.03);
-  neptune.rotateY(0.032);
-  pluto.rotateY(0.008);
+  mercury.planet.rotateY(0.004);
+  venus.planet.rotateY(0.002);
+  earth.planet.rotateY(0.02);
+  moon.planet.rotateY(0.02);
+  mars.planet.rotateY(0.018);
+  jupiter.planet.rotateY(0.04);
+  saturn.planet.rotateY(0.038);
+  uranus.planet.rotateY(0.03);
+  neptune.planet.rotateY(0.032);
+  pluto.planet.rotateY(0.008);
 
   // Quay quanh mặt trời
-  objMercury.rotateY(0.01);
-  objVenus.rotateY(0.015);
-  objEarth.rotateY(0.01);
-  objMars.rotateY(0.008);
-  objJupiter.rotateY(0.002);
-  objSaturn.rotateY(0.0009);
-  objUranus.rotateY(0.0004);
-  objNeptune.rotateY(0.0001);
-  objPluto.rotateY(0.00007);
+  mercury.obj.rotateY(0.01);
+  venus.obj.rotateY(0.015);
+  earth.obj.rotateY(0.01);
+  moon.obj.rotateY(0.005);
+  mars.obj.rotateY(0.008);
+  jupiter.obj.rotateY(0.002);
+  saturn.obj.rotateY(0.0009);
+  uranus.obj.rotateY(0.0004);
+  neptune.obj.rotateY(0.0001);
+  pluto.obj.rotateY(0.00007);
   renderer.render(scene, camera);
 }
 
 renderer.setAnimationLoop(animate);
 
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
