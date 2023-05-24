@@ -11,15 +11,17 @@ scene.add(ambientLight);
 scene.add(pointLight)
 
 // Tạo background cho scene
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-scene.background = cubeTextureLoader.load([
-  "assets/images/stars.jpg",
-  "assets/images/stars.jpg",
-  "assets/images/stars.jpg",
-  "assets/images/stars.jpg",
-  "assets/images/stars.jpg",
-  "assets/images/stars.jpg"
-]);
+var path = './assets/images/dark-s_';
+var format = '.jpg';
+var urls = [
+    path +'px'+ format, path + 'nx' + format,
+    path +'py'+ format, path + 'ny' + format,
+    path +'pz'+ format, path + 'nz' + format,
+];
+var reflectionCube = new THREE.CubeTextureLoader().load(urls);
+reflectionCube.format = THREE.RGBAFormat;
+
+scene.background = reflectionCube
 
 const loader = new THREE.TextureLoader();
 
@@ -43,22 +45,25 @@ orbitArr.forEach(function (item) {
 const sunGeo = new THREE.SphereGeometry(16, 32, 32);
 const sunMat = new THREE.MeshBasicMaterial({ map: loader.load("assets/images/sun.jpg") });
 const sun = new THREE.Mesh(sunGeo, sunMat);
+sun.name = 'sun'
 scene.add(sun);
 
 // Hàm tạo các hành tinh
-function createPlanet(size, texture, position) {
+function createPlanet(size, texture, position,name) {
   const planetGeo = new THREE.SphereGeometry(size, 30, 30);
   const planetMat = new THREE.MeshStandardMaterial({ map: loader.load(texture) });
   const planet = new THREE.Mesh(planetGeo, planetMat);
   const obj = new THREE.Object3D();
   planet.position.x = position;
+  planet.name = name
+  obj.name = name
   obj.add(planet);
   scene.add(obj);
   return { obj, planet };
 }
 
 // Hàm tạo các hành tinh có vành đai
-function createPlanetHasRing(radius, outerRadius, position, planetTexture, ringTexture) {
+function createPlanetHasRing(radius, outerRadius, position, planetTexture, ringTexture, name) {
   const planetGeo = new THREE.SphereGeometry(radius, 30, 30);
   const planetMat = new THREE.MeshStandardMaterial({ map: loader.load(planetTexture) });
   const planet = new THREE.Mesh(planetGeo, planetMat);
@@ -73,41 +78,43 @@ function createPlanetHasRing(radius, outerRadius, position, planetTexture, ringT
   ring.position.x = position;
   ring.rotation.x = -0.5 * Math.PI;
   planet.position.x = position;
+  planet.name = name
+  obj.name = name
   obj.add(planet, ring);
   scene.add(obj);
   return { obj, planet };
 }
 
 // Tạo sao Thủy
-const mercury = createPlanet(3.2, "assets/images/mercury.jpg", 28);
+const mercury = createPlanet(3.2, "assets/images/mercury.jpg", 28,'mercury');
 
 // Tạo sao Kim
-const venus = createPlanet(5.8, "assets/images/venus.jpg", 44);
+const venus = createPlanet(5.8, "assets/images/venus.jpg", 44, 'venus');
 
 // Tạo Trái Đất
-const earth = createPlanet(6, "assets/images/earth.jpg", 62);
+const earth = createPlanet(6, "assets/images/earth.jpg", 62, 'earth');
 
 // Tạo mặt trăng
-const moon = createPlanet(1.5, "assets/images/moon.jpg", 10);
+const moon = createPlanet(1.5, "assets/images/moon.jpg", 10,'moon');
 earth.planet.add(moon.planet);
 
 // Tạo sao Hỏa
-const mars = createPlanet(4, "assets/images/mars.jpg", 78);
+const mars = createPlanet(4, "assets/images/mars.jpg", 78,'mars');
 
 // Tạo sao Mộc
-const jupiter = createPlanet(12, "assets/images/jupiter.jpg", 100);
+const jupiter = createPlanet(8, "assets/images/jupiter.jpg", 100,'jupiter');
 
 // Tạo sao Thổ
-const saturn = createPlanetHasRing(10, 20, 138, "assets/images/saturn.jpg", "assets/images/saturn ring.png")
+const saturn = createPlanetHasRing(10, 14, 138, "assets/images/saturn.jpg", "assets/images/saturn ring.png", 'saturn')
 
 // Tạo sao Thiên Vương
-const uranus = createPlanetHasRing(7, 12, 176, "assets/images/uranus.jpg", "assets/images/uranus ring.png")
+const uranus = createPlanetHasRing(7, 8, 176, "assets/images/uranus.jpg", "assets/images/uranus ring.png",'uranus')
 
 // Tạo sao Hải Vương
-const neptune = createPlanet(7, "assets/images/neptune.jpg", 200)
+const neptune = createPlanet(7, "assets/images/neptune.jpg", 200,'neptune')
 
 // Tạo sao Diêm Vương
-const pluto = createPlanet(2.8, "assets/images/pluto.jpg", 216);
+const pluto = createPlanet(2.8, "assets/images/pluto.jpg", 216,'pluto');
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -129,10 +136,10 @@ function animate() {
   sun.rotateY(0.004);
   mercury.planet.rotateY(0.004);
   venus.planet.rotateY(0.002);
-  earth.planet.rotateY(0.02);
+  earth.planet.rotateY(0.01);
   moon.planet.rotateY(0.02);
   mars.planet.rotateY(0.018);
-  jupiter.planet.rotateY(0.04);
+  jupiter.planet.rotateY(0.014);
   saturn.planet.rotateY(0.038);
   uranus.planet.rotateY(0.03);
   neptune.planet.rotateY(0.032);
@@ -140,19 +147,70 @@ function animate() {
 
   // Quay quanh mặt trời
   mercury.obj.rotateY(0.01);
-  venus.obj.rotateY(0.015);
-  earth.obj.rotateY(0.01);
+  venus.obj.rotateY(0.005);
+  earth.obj.rotateY(0.0055);
   moon.obj.rotateY(0.005);
-  mars.obj.rotateY(0.008);
+  mars.obj.rotateY(0.004);
   jupiter.obj.rotateY(0.002);
-  saturn.obj.rotateY(0.0009);
+  saturn.obj.rotateY(0.0005);
   uranus.obj.rotateY(0.0004);
   neptune.obj.rotateY(0.0001);
   pluto.obj.rotateY(0.00007);
   renderer.render(scene, camera);
 }
 
+function animate_stop(){
+  // Tự quay quanh trục
+  sun.rotateY(0.004);
+  mercury.planet.rotateY(0.004);
+  venus.planet.rotateY(0.002);
+  earth.planet.rotateY(0.01);
+  moon.planet.rotateY(0.02);
+  mars.planet.rotateY(0.018);
+  jupiter.planet.rotateY(0.014);
+  saturn.planet.rotateY(0.038);
+  uranus.planet.rotateY(0.03);
+  neptune.planet.rotateY(0.032);
+  pluto.planet.rotateY(0.008);
+  renderer.render(scene, camera);
+}
+
 renderer.setAnimationLoop(animate);
+
+// --------
+const stopElement = document.querySelector('.stop')
+
+stopElement.onclick = function() {
+  stopElement.classList.toggle("stopped")
+  const stoppedElement = document.querySelector('.stopped')
+  if (stoppedElement){
+    stopElement.innerText = "Play"
+    renderer.setAnimationLoop(animate_stop)
+  }
+  else{
+    stopElement.innerText = "Stop"
+    renderer.setAnimationLoop(animate)
+  }
+}
+// --------
+
+// console.log(scene.children)
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+var draggable = new THREE.Object3D;
+window.addEventListener('click', event => {
+  pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  raycaster.setFromCamera( pointer, camera );
+  const intersects = raycaster.intersectObjects( scene.children);
+
+  if(intersects.length > 0){
+    draggable = intersects[0].object;
+    console.log('tim thấy', draggable.name)
+  }
+
+})
 
 window.addEventListener('resize', function () {
   camera.aspect = window.innerWidth / window.innerHeight;
