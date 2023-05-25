@@ -1,18 +1,18 @@
-
 body {
     margin: 0;
 }
+
 .stop {
     appearance: button;
     backface-visibility: hidden;
     background-color: #405cf5;
     border-radius: 6px;
     border-width: 0;
-    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
-    font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+    font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
     font-size: 100%;
     height: 44px;
     line-height: 1.15;
@@ -24,7 +24,7 @@ body {
     text-align: center;
     text-transform: none;
     transform: translateZ(0);
-    transition: all .2s,box-shadow .08s ease-in;
+    transition: all .2s, box-shadow .08s ease-in;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -35,19 +35,44 @@ body {
     position: absolute;
     top: 60px;
     background-color: transparent;
-    width: 300px;
+    width: "100%";
     padding: 10px;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     display: none;
+    flex-direction: row;
     border-radius: 10px;
     color: #fff;
-    border: #fff 1px solid;
+    border:  1px solid #fff;
     margin-left: 10px;
+    backdrop-filter: blur(8px);
+}
+
+.fa-solid.fa-square-xmark{
+    color: #f50000; 
+    display: block; 
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 40px;
+    cursor: pointer;
 }
 
 .title {
     font-weight: bold;
     color: #ee5555;
-    font-size:24px;
+    font-size: 24px;
+}
+
+.infor{
+    display: flex;
+    flex-direction: row;
+}
+
+.infor-text{
+    width: 400px;
+}
+
+.planet-gif {
+    border: 0;
 }
