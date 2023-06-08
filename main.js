@@ -5,7 +5,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const ambientLight = new THREE.AmbientLight(0x333333);
-const pointLight = new THREE.PointLight(0xffffff, 2, 300);
+const pointLight = new THREE.PointLight(0xffffff, 1.5);
 
 scene.add(ambientLight);
 scene.add(pointLight);
@@ -381,7 +381,6 @@ window.addEventListener("click", (event) => {
       <img class = "planet-gif" src="./assets/images/${draggable.name}-gif.gif" width="500px", height="500px">
       
     </div>
-      
     `;
     getContainer.style.display = "block";
     getContainer.innerHTML = html;
