@@ -47,10 +47,10 @@ function createOrbit(radius) {
   return orbitLine;
 }
 
-const orbitArr = [28, 44, 62, 78, 100, 138, 176, 200, 216];
-orbitArr.forEach(function (item) {
-  scene.add(createOrbit(item));
-});
+// const orbitArr = [28, 44, 62, 78, 100, 138, 176, 200, 216];
+// orbitArr.forEach(function (item) {
+//   scene.add(createOrbit(item));
+// });
 
 // Tạo mặt trời
 const sunGeo = new THREE.SphereGeometry(16, 32, 32);
@@ -230,6 +230,40 @@ stopElement.onclick = function () {
     renderer.setAnimationLoop(animate);
   }
 };
+
+const orbitArr = [28, 44, 62, 78, 100, 138, 176, 200, 216];
+// orbitArr.forEach(function(item) {
+//   scene.add(createOrbit(item));
+// });
+
+let orbits = orbitArr.map(function(item){
+  const orbit = createOrbit(item);
+  scene.add(orbit);
+  return orbit;
+})
+
+let showOrbit = true;
+const showOrbitButton = document.querySelector(".show-orbit");
+
+showOrbitButton.addEventListener('click', function(){
+  if(showOrbit === true){
+    showOrbitButton.innerText = "Hiện quỹ đạo";
+    showOrbit = false;
+    orbits.forEach(function(orbit){
+      scene.remove(orbit);
+    });
+  }
+  else if(showOrbit == false){
+    showOrbitButton.innerText = "Tắt quỹ đạo";
+    showOrbit = true;
+    orbits = orbitArr.map(function(item){
+      const orbit = createOrbit(item);
+      scene.add(orbit);
+      return orbit;
+    })
+  }
+});
+
 // --------
 const info = {
   mercury: {
