@@ -378,7 +378,7 @@ window.addEventListener("click", (event) => {
           info[draggable.name].desc
         } </div>
       </div>
-      <img calss = "planet-gif" src="./assets/images/${draggable.name}-gif.gif" width="500px", height="500px">
+      <img class = "planet-gif" src="./assets/images/${draggable.name}-gif.gif" width="500px", height="500px">
       
     </div>
       

@@ -106,4 +106,5 @@ body {
 
 .planet-gif {
     border: 0;
+    object-fit: contain;
 }
