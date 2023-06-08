@@ -233,81 +233,81 @@ stopElement.onclick = function () {
 // --------
 const info = {
   mercury: {
-    name: "Mercury",
+    name: "Sao Thuỷ",
     distance: 57.9,
     diameter: 4.879,
     gravity: 3.7,
-    desc: "Mercury is the smallest planet in our solar system and closest to the Sun",
+    desc: "Sao Thuỷ là hành tinh nhỏ nhất trong hệ mặt trời và là hành tinh gần Mặt Trời nhất.",
   },
   venus: {
-    name: "Venus",
+    name: "Sao Kim",
     distance: 108.2,
     diameter: 12.104,
     gravity: 8.9,
-    desc: "Venus is the second planet from the Sun and is known for its thick atmosphere.",
+    desc: "Sao Kim là hành tinh thứ hai tính từ Mặt trời và được biết đến với bầu khí quyển dày đặc.",
   },
   earth: {
-    name: "Earth",
+    name: "Trái Đất",
     distance: 149.6,
     diameter: 12.742,
     gravity: 9.8,
-    desc: "Earth is our home planet, known for its diverse ecosystems and supporting life.",
+    desc: "Đây là hành tinh xinh đẹp của chúng ta đó, nó có hệ sinh thái đa dạng và có hỗ trợ sự sống.",
   },
   mars: {
-    name: "Mars",
+    name: "Sao Hoả",
     distance: 227.9,
     diameter: 6.779,
     gravity: 3.7,
-    desc: 'Mars is the fourth planet from the Sun and is often called the "Red Planet" due to its reddish appearance.',
+    desc: 'Sao Hỏa là hành tinh thứ tư tính từ Mặt trời và thường được gọi là "Hành tinh Đỏ" do vẻ ngoài của nó.',
   },
   jupiter: {
-    name: "Jupiter",
+    name: "Sao Mộc",
     distance: 778.5,
     diameter: 139.82,
     gravity: 24.8,
-    desc: "Jupiter is the largest planet in our solar system and is known for its massive size and strong magnetic field.",
+    desc: "Sao Mộc là hành tinh lớn nhất trong hệ mặt trời của chúng ta và được biết đến với kích thước khổng lồ và từ trường mạnh.",
   },
   saturn: {
-    name: "Saturn",
+    name: "Sao Thổ",
     distance: 1.4,
     diameter: 116.46,
     gravity: 10.4,
-    desc: "Saturn is famous for its beautiful rings, which are made up of ice particles and rocks.",
+    desc: "Sao Thổ nổi tiếng với vành đai tuyệt đẹp được tạo thành từ các hạt băng và đá.",
   },
   uranus: {
-    name: "Uranus",
+    name: "Sao Thiên Vương",
     distance: 2.9,
     diameter: 50.724,
     gravity: 8.7,
-    desc: "Uranus is a gas giant with a unique feature of being tilted on its side, causing its rings and moons to orbit in an unusual manner.",
+    desc: "Sao Thiên Vương là một hành tinh khí khổng lồ với đặc điểm độc đáo là bị nghiêng sang một bên, khiến các vành đai và mặt trăng của nó quay quanh quỹ đạo một cách bất thường.",
   },
   neptune: {
-    name: "Neptune",
+    name: "Sao Hải Vương",
     distance: 4.5,
     diameter: 49.244,
     gravity: 11.2,
-    desc: "Neptune is the farthest planet from the Sun and is known for its striking blue color and strong winds.",
+    desc: "Sao Hải Vương là hành tinh xa Mặt trời nhất và được biết đến với màu xanh nổi bật và những cơn gió mạnh.",
   },
   pluto: {
-    name: "Pluto",
+    name: "Sao Diêm Vương",
     distance: 5.9,
     diameter: 2.377,
     gravity: 0.62,
-    desc: "Pluto is a small and icy dwarf planet located in the outer regions of the solar system. It was discovered in 1930 and was considered the ninth planet until its reclassification in 2006. Pluto has a highly elliptical orbit and a thin atmosphere primarily composed of nitrogen, methane, and carbon monoxide. It has five known moons, the largest of which is Charon.",
+    desc: "Sao Diêm Vương là một hành tinh lùn nhỏ và băng giá nằm ở vùng bên ngoài của hệ mặt trời. Nó được phát hiện vào năm 1930 và được coi là hành tinh thứ chín cho đến khi được phân loại lại vào năm 2006. Sao Diêm Vương có quỹ đạo hình elip cao và bầu khí quyển mỏng chủ yếu bao gồm nitơ, metan và carbon monoxide. Nó có năm mặt trăng được biết đến, trong đó lớn nhất là Charon.",
   },
   sun: {
-    name: "Sun",
-    distance: 149.6,
+    name: "Mặt Trời",
+    distance: 0,
     diameter: 1.39,
     gravity: 274,
-    desc: "The Sun is a yellow dwarf star, primarily composed of hydrogen and helium. It is incredibly massive and accounts for about 99.86% of the total mass in the solar system. The Sun generates energy through nuclear fusion, where hydrogen atoms combine to form helium, releasing a tremendous amount of energy in the process. This energy radiates outward in the form of sunlight, providing heat and light to the planets in the solar system. The Sun's intense gravity holds the solar system together and influences the orbital paths of planets and other celestial bodies.",
+    desc: "Mặt trời là một ngôi sao lùn màu vàng, chủ yếu bao gồm hydro và heli. Nó cực kỳ lớn và chiếm khoảng 99,86% tổng khối lượng trong hệ mặt trời. Mặt trời tạo ra năng lượng thông qua phản ứng tổng hợp hạt nhân, trong đó các nguyên tử hydro kết hợp với nhau để tạo thành helium, giải phóng một lượng năng lượng khổng lồ trong quá trình này. Năng lượng này tỏa ra bên ngoài dưới dạng ánh sáng mặt trời, cung cấp nhiệt và ánh sáng cho các hành tinh trong hệ mặt trời. Lực hấp dẫn cực mạnh của Mặt trời giữ hệ mặt trời lại với nhau và ảnh hưởng đến quỹ đạo của các hành tinh và các thiên thể khác.",
   },
   moon: {
-    name: "Moon",
+    name: "Mặt Trăng",
     distance: 0.3844,
     diameter: 1.622,
     gravity: 274,
-    desc: "The Moon is Earth's only natural satellite and is the fifth-largest satellite in the solar system. It has a rocky surface covered with craters, mountains, valleys, and plains. The Moon's gravitational pull influences ocean tides on Earth. It takes about 27.3 days for the Moon to complete one orbit around Earth, which is roughly the same amount of time it takes to complete one rotation on its axis. The Moon does not have an atmosphere and has extreme temperature variations between its day and night sides.",
+    desc: "Mặt trăng là vệ tinh tự nhiên duy nhất của Trái đất và là vệ tinh lớn thứ năm trong hệ mặt trời. Nó có một bề mặt đá được bao phủ bởi miệng núi lửa, núi, thung lũng và đồng bằng. Lực hấp dẫn của Mặt trăng ảnh hưởng đến thủy triều trên Trái đất. Mất khoảng 27,3 ngày để Mặt trăng hoàn thành một quỹ đạo quanh Trái đất, gần bằng khoảng thời gian để hoàn thành một vòng quay trên trục của nó. Mặt trăng không có bầu khí quyển và có sự thay đổi nhiệt độ khắc nghiệt giữa ngày và đêm",
   },
 };
 // console.log(scene.children)
@@ -330,17 +330,17 @@ window.addEventListener("click", (event) => {
     <i class="fa-solid fa-square-xmark"></i>
     <div class="infor">
       <div class="infor-text">
-        <div><span class="title">Name:</span> ${info[draggable.name].name}</div>
-        <div><span class="title">Distance from Sun:</span> ${
+        <div><span class="title">Hành tinh:</span> ${info[draggable.name].name}</div>
+        <div><span class="title">Khoảng cách đến mặt trời:</span> ${
           info[draggable.name].distance
-        } million km</div>
-        <div><span class="title">Diameter:</span> ${
+        } triệu km</div>
+        <div><span class="title">Đường kính:</span> ${
           info[draggable.name].diameter
-        }km</div>
-        <div><span class="title">Gravity:</span> ${
+        } km</div>
+        <div><span class="title">Lực hấp dẫn:</span> ${
           info[draggable.name].gravity
         } m/s²</div>
-        <div><span class="title">Description:</span> ${
+        <div><span class="title">Mô tả:</span> ${
           info[draggable.name].desc
         } </div>
       </div>
